@@ -1,1 +1,6 @@
-# Add project requirements here
+# Requirements for python
+
+-r requirements.txt
+
+pytest==8.1.1
+uv==0.1.24
