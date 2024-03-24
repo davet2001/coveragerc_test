@@ -4,7 +4,6 @@ jobs:
   prune-coveragerc:
     runs-on: ubuntu-22.04
     steps:
-    steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v4.1.2
       # - name: Set current date as env variable
