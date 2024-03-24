@@ -22,7 +22,7 @@ jobs:
         id: python
         uses: actions/setup-python@v5.0.0
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
           check-latest: true
       - name: Restore full Python ${{ matrix.python-version }} virtual environment
         id: cache-venv
