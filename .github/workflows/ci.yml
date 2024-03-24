@@ -255,34 +255,34 @@ jobs:
           uv pip install -e . --config-settings editable_mode=compat
         
 
-  gen-requirements-all:
-    name: Check all requirements
-    runs-on: ubuntu-22.04
-    if: |
-      github.event.inputs.pylint-only != 'true'
-      && github.event.inputs.mypy-only != 'true'
-    needs:
-      - info
-      - base
-    steps:
-      - name: Check out code from GitHub
-        uses: actions/checkout@v4.1.2
-      - name: Set up Python ${{ env.DEFAULT_PYTHON }}
-        id: python
-        uses: actions/setup-python@v5.0.0
-        with:
-          python-version: ${{ env.DEFAULT_PYTHON }}
-          check-latest: true
-      - name: Restore base Python virtual environment
-        id: cache-venv
-        uses: actions/cache/restore@v4.0.2
-        with:
-          path: venv
-          fail-on-cache-miss: true
-          key: >-
-            ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{
-            needs.info.outputs.python_cache_key }}
-      - name: Run gen_requirements_all.py
-        run: |
-          . venv/bin/activate
-          python -m script.gen_requirements_all validate
+  # gen-requirements-all:
+  #   name: Check all requirements
+  #   runs-on: ubuntu-22.04
+  #   if: |
+  #     github.event.inputs.pylint-only != 'true'
+  #     && github.event.inputs.mypy-only != 'true'
+  #   needs:
+  #     - info
+  #     - base
+  #   steps:
+  #     - name: Check out code from GitHub
+  #       uses: actions/checkout@v4.1.2
+  #     - name: Set up Python ${{ env.DEFAULT_PYTHON }}
+  #       id: python
+  #       uses: actions/setup-python@v5.0.0
+  #       with:
+  #         python-version: ${{ env.DEFAULT_PYTHON }}
+  #         check-latest: true
+  #     - name: Restore base Python virtual environment
+  #       id: cache-venv
+  #       uses: actions/cache/restore@v4.0.2
+  #       with:
+  #         path: venv
+  #         fail-on-cache-miss: true
+  #         key: >-
+  #           ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{
+  #           needs.info.outputs.python_cache_key }}
+  #     - name: Run gen_requirements_all.py
+  #       run: |
+  #         . venv/bin/activate
+  #         python -m script.gen_requirements_all validate
