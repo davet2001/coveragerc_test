@@ -4,9 +4,9 @@ jobs:
 
 
   base:
-    uses: ./.github/workflows/ci.yml  # use the callable tests job to run tests
+    uses: ./.github/workflows/ci.yml  
   info:
-    uses: ./.github/workflows/ci.yml  # use the callable tests job to run tests
+    uses: ./.github/workflows/ci.yml  
   
   prune-coveragerc:
     runs-on: ubuntu-22.04
@@ -18,7 +18,7 @@ jobs:
       #   run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
       # - name: Echo current date
       #   run: echo $NOW # Gives "2022-12-11T01:42:20"
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ needs.info.outputs.default-pythyon-version }}
         id: python
         uses: actions/setup-python@v5.0.0
         with:
@@ -30,7 +30,7 @@ jobs:
         with:
           path: venv
           fail-on-cache-miss: false
-          key: ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{
+          key: ${{ runner.os }}-${{ needs.info.outputs.default-pythyon-version }}-${{
             needs.info.outputs.python_cache_key }}
       - name: Run pytest followed by coveragerc prune
         run: |

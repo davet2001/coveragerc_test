@@ -32,7 +32,10 @@ on:
         default: false
         type: boolean
   workflow_call:
-
+    outputs:
+      default-python-version:
+        description: "Default python version"
+        value: ${{ jobs.info.outputs.python_versions[0] }}
 
     
 env:
