@@ -11,9 +11,9 @@ import os
 
 import pytest
 
-COVERAGERC = "/workspaces/coveragerc_test/.coveragerc"
+COVERAGERC = ".coveragerc"
 THRESHOLD = 97.0
-TEMP_JSON = "/workspaces/coveragerc_test/build/_temp_coverage.json"
+TEMP_JSON = "build/_temp_coverage.json"
 
 
 def replace_all(file: str, before: str, after: str):
