@@ -95,40 +95,6 @@ jobs:
       skip_coverage: ${{ steps.info.outputs.skip_coverage }}
     runs-on: ubuntu-22.04
     steps:
-      - name: Check out code from GitHub
-        uses: actions/checkout@v4.1.2
-      - name: Generate partial Python venv restore key
-        id: generate_python_cache_key
-        run: >-
-          echo "key=venv-${{ env.CACHE_VERSION }}-${{
-            hashFiles('requirements_test.txt') }}-${{
-            hashFiles('requirements_all.txt') }}-${{
-            hashFiles('homeassistant/package_constraints.txt') }}" >> $GITHUB_OUTPUT
-      - name: Generate partial pre-commit restore key
-        id: generate_pre-commit_cache_key
-        run: >-
-          echo "key=pre-commit-${{ env.CACHE_VERSION }}-${{
-            hashFiles('.pre-commit-config.yaml') }}"  >> $GITHUB_OUTPUT
-      - name: Filter for core changes
-        uses: dorny/paths-filter@v3.0.2
-        id: core
-        with:
-          filters: .core_files.yaml
-      - name: Create a list of integrations to filter for changes
-        run: |
-          integrations=$(ls -Ad ./homeassistant/components/[!_]*  | xargs -n 1 basename)
-          touch .integration_paths.yaml
-          for integration in $integrations; do
-            echo "${integration}: [homeassistant/components/${integration}/**, tests/components/${integration}/**]" \
-              >> .integration_paths.yaml;
-          done
-          echo "Result:"
-          cat .integration_paths.yaml
-      - name: Filter for integration changes
-        uses: dorny/paths-filter@v3.0.2
-        id: integrations
-        with:
-          filters: .integration_paths.yaml
       - name: Collect additional information
         id: info
         run: |
