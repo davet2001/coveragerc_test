@@ -1,0 +1,94 @@
+name: CI
+run-name: "${{ github.event_name == 'workflow_dispatch' && format('CI: {0}', github.ref_name) || '' }}"
+
+# yamllint disable-line rule:truthy
+on:
+    push:
+      branches:
+        - dev
+        - rc
+        - master
+    pull_request: ~
+    workflow_dispatch:
+      inputs:
+        full:
+          description: "Full run (regardless of changes)"
+          default: false
+          type: boolean
+        lint-only:
+          description: "Skip pytest"
+          default: false
+          type: boolean
+        skip-coverage:
+          description: "Skip coverage"
+          default: false
+          type: boolean
+        pylint-only:
+          description: "Only run pylint"
+          default: false
+          type: boolean
+        mypy-only:
+          description: "Only run mypy"
+          default: false
+          type: boolean
+  
+  env:
+    CACHE_VERSION: 5
+    UV_CACHE_VERSION: 1
+    MYPY_CACHE_VERSION: 8
+    HA_SHORT_VERSION: "2024.4"
+    DEFAULT_PYTHON: "3.12"
+    ALL_PYTHON_VERSIONS: "['3.12']"
+    # 10.3 is the oldest supported version
+    # - 10.3.32 is the version currently shipped with Synology (as of 17 Feb 2022)
+    # 10.6 is the current long-term-support
+    # - 10.6.10 is the version currently shipped with the Add-on (as of 31 Jan 2023)
+    # 10.10 is the latest short-term-support
+    # - 10.10.3 is the latest (as of 6 Feb 2023)
+    # 10.11 is the latest long-term-support
+    # - 10.11.2 is the version currently shipped with Synology (as of 11 Oct 2023)
+    # mysql 8.0.32 does not always behave the same as MariaDB
+    # and some queries that work on MariaDB do not work on MySQL
+    MARIADB_VERSIONS: "['mariadb:10.3.32','mariadb:10.6.10','mariadb:10.10.3','mariadb:10.11.2','mysql:8.0.32']"
+    # 12 is the oldest supported version
+    # - 12.14 is the latest (as of 9 Feb 2023)
+    # 15 is the latest version
+    # - 15.2 is the latest (as of 9 Feb 2023)
+    POSTGRESQL_VERSIONS: "['postgres:12.14','postgres:15.2']"
+    PRE_COMMIT_CACHE: ~/.cache/pre-commit
+    UV_CACHE_DIR: /tmp/uv-cache
+    SQLALCHEMY_WARN_20: 1
+    PYTHONASYNCIODEBUG: 1
+    HASS_CI: 1
+
+gen-requirements-all:
+    name: Check all requirements
+    runs-on: ubuntu-22.04
+    if: |
+      github.event.inputs.pylint-only != 'true'
+      && github.event.inputs.mypy-only != 'true'
+    needs:
+      - info
+      - base
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v4.1.2
+      - name: Set up Python ${{ env.DEFAULT_PYTHON }}
+        id: python
+        uses: actions/setup-python@v5.0.0
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON }}
+          check-latest: true
+      - name: Restore base Python virtual environment
+        id: cache-venv
+        uses: actions/cache/restore@v4.0.2
+        with:
+          path: venv
+          fail-on-cache-miss: true
+          key: >-
+            ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{
+            needs.info.outputs.python_cache_key }}
+      - name: Run gen_requirements_all.py
+        run: |
+          . venv/bin/activate
+          python -m script.gen_requirements_all validate
