@@ -36,6 +36,8 @@ on:
       default-python-version:
         description: "Default python version"
         value: ${{ jobs.info.outputs.python_versions[0] }}
+      python_cache_key:
+        value: ${{ jobs.info.outputs.python_cache_key }}
 
     
 env:
