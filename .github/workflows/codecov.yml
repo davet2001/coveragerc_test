@@ -5,10 +5,12 @@ jobs:
 
   base:
     uses: ./.github/workflows/ci.yml  # use the callable tests job to run tests
-
+  info:
+    uses: ./.github/workflows/ci.yml  # use the callable tests job to run tests
+  
   prune-coveragerc:
     runs-on: ubuntu-22.04
-    needs: [base]
+    needs: [base, info]
     steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v4.1.2
