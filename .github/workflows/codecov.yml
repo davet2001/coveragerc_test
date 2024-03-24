@@ -30,7 +30,7 @@ jobs:
         with:
           path: venv
           fail-on-cache-miss: false
-          key: ${{ runner.os }}-${{ needs.info.outputs.default-pythyon-version }}-${{
+          key: ${{ runner.os }}-3.12-${{
             needs.info.outputs.python_cache_key }}
       - name: Run pytest followed by coveragerc prune
         run: |
