@@ -1,8 +1,14 @@
 name: Prune Codecov .coveragerc
 on: [push]
 jobs:
+
+
+  base:
+    uses: ./.github/workflows/ci.yml  # use the callable tests job to run tests
+
   prune-coveragerc:
     runs-on: ubuntu-22.04
+    needs: [base]
     steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v4.1.2
