@@ -1,5 +1,8 @@
 name: Prune Codecov .coveragerc
 on: [push]
+
+env:
+  DEFAULT_PYTHON: "3.12"
 jobs:
 
 
@@ -18,13 +21,13 @@ jobs:
       #   run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
       # - name: Echo current date
       #   run: echo $NOW # Gives "2022-12-11T01:42:20"
-      - name: Set up Python ${{ needs.info.outputs.default-pythyon-version }}
+      - name: Set up Python ${{ env.DEFAULT_PYTHON }}
         id: python
         uses: actions/setup-python@v5.0.0
         with:
           python-version: "3.12"
           check-latest: true
-      - name: Restore full Python ${{ matrix.python-version }} virtual environment
+      - name: Restore full Python ${{ env.DEFAULT_PYTHON }} virtual environment
         id: cache-venv
         uses: actions/cache/restore@v4.0.2
         with:
