@@ -15,11 +15,7 @@ jobs:
     steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v4.1.2
-      # - name: Set current date as env variable
-      #   run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-      # - name: Echo current date
-      #   run: echo $NOW # Gives "2022-12-11T01:42:20"
-      - name: Set up Python ${{ env.DEFAULT_PYTHON }}
+      - name: Set up Python ${{ needs.base.outputs.default-python-version  }}
         id: python
         uses: actions/setup-python@v5.0.0
         with:
@@ -30,7 +26,7 @@ jobs:
         uses: actions/cache/restore@v4.0.2
         with:
           path: venv
-          fail-on-cache-miss: false
+          fail-on-cache-miss: true
           key: ${{ runner.os }}-${{ env.DEFAULT_PYTHON }}-${{ needs.base.outputs.python_cache_key }}
       - name: Run pytest followed by coveragerc prune
         run: |
