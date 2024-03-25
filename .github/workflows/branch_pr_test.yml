@@ -1,0 +1,32 @@
+name: Branch & PR test
+on: [push]
+
+env:
+  DEFAULT_PYTHON: "3.12.2"
+  BRANCH: "coveragerc_auto_prune"
+jobs:
+
+  branch-pr:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v4.1.2
+      - name: Git create branch
+        run: |
+          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+          git --version
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git branch -D ${{ env.BRANCH }} &>/dev/null 
+          git checkout -B ${{ env.BRANCH }}
+          git push
+      # - name: create pull request
+      #   run: gh pr create -B base_branch -H branch_to_merge --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+      #   env:
+      #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Set up Python ${{ needs.base.outputs.default-python-version  }}
+      #   id: python
+      #   uses: actions/setup-python@v5.0.0
+      #   with:
+      #     python-version: "3.12"
+      #     check-latest: true
