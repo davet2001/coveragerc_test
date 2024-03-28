@@ -74,7 +74,7 @@ jobs:
           gh pr create \
             --base dev \
             --title "Remove unnecessary .coveragerc entries" \
-            --body "${{ env.PR_BODY }}""
+            --body "${{ env.PR_BODY }}"
   
 
   # prune-coveragerc-commit:
