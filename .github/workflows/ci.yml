@@ -34,7 +34,7 @@ on:
   workflow_call:
     outputs:
       default_python_version:
-        value: ${{ jobs.info.outputs.python_versions[0] }}
+        value: ${{ env.ALL_PYTHON_VERSIONS[0] }}
       python_-cache_key:
         value: ${{ jobs.info.outputs.python_cache_key }}
 
@@ -160,7 +160,6 @@ jobs:
             test_group_count=10
             test_full_suite="true"
           fi
-          env.DEFAULT_PYTHON
           if [[ "${{ github.event.inputs.skip-coverage }}" == "true" ]] \
             || [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci-skip-coverage') }}" == "true" ]];
           then
