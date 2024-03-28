@@ -8,8 +8,6 @@ env:
   USER_EMAIL: "17680170+davet2001@users.noreply.github.com"
   USER_NAME: "Dave T"
 jobs:
-
-
   base:
     uses: ./.github/workflows/ci.yml  
   
@@ -45,13 +43,8 @@ jobs:
           echo "$change_count files changed"
           echo "changes=$change_count" >> $GITHUB_OUTPUT
 
-  prune-coveragerc-commit:
-    runs-on: ubuntu-22.04
-    needs: [prune-coveragerc-check]
-
-    if: needs.prune-coveragerc-check.outputs.changes
-    steps: 
-      - name: Create branch and add ${{ needs.prune-coveragerc-check.outputs.changes }} files
+      - name: Create branch and add ${{ steps.detect.outputs.changes }} files
+        if: ${{ steps.detect.outputs.changes }}
         run: |
           pwd
           ls -la
@@ -61,7 +54,15 @@ jobs:
           git add .coveragerc
           git commit -m "Remove unnecessary .coveragerc entries"
           git push
-      #- name: Create pull request
-        # run: |
-        #   gh 
+        #- name: Create pull request
+          # run: |
+          #   gh 
+  
+
+  # prune-coveragerc-commit:
+  #   runs-on: ubuntu-22.04
+  #   needs: [prune-coveragerc-check]
+
+  #   if: needs.prune-coveragerc-check.outputs.changes
+  #   steps: 
 
