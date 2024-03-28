@@ -48,7 +48,7 @@ jobs:
         run: |
           pwd
           ls -la
-          git checkout -b ${{ env.BRANCH_NAME }}
+          git checkout -B ${{ env.BRANCH_NAME }}
           git config --local user.email ${{ env.USER_EMAIL }}
           git config --local user.name ${{ env.USER_NAME }}
           git add .coveragerc
