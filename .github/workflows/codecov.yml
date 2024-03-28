@@ -1,11 +1,17 @@
 name: Prune Codecov .coveragerc
-on: [push]
+on: 
+  push:
+    paths:
+      - '/.github/workflows/codecov.yml'
+      - '/script/check_coveragerc.py'
+  schedule:
+    # Every Monday at 4am UTC 
+    - cron: 0 4 * * 1
 
 env:
   GH_TOKEN: ${{ github.token }}
-  DEFAULT_PYTHON: "3.12.2"
+  DEFAULT_PYTHON: "3.12"
   BRANCH_NAME: "prune_coveragerc_1"
-  # @todo My details, just for testing - Later change to bot user id?
   USER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
   USER_NAME: "github-actions[bot]"
   PR_BODY: |
@@ -31,11 +37,11 @@ jobs:
     steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v4.1.2
-      - name: Set up Python ${{ needs.base.outputs.default-python-version  }}
+      - name: Set up Python ${{ env.DEFAULT_PYTHON }}
         id: python
         uses: actions/setup-python@v5.0.0
         with:
-          python-version: "3.12"
+          python-version: ${{ env.DEFAULT_PYTHON }}
           check-latest: true
       - name: Restore full Python ${{ env.DEFAULT_PYTHON }} virtual environment
         id: cache-venv
