@@ -49,14 +49,11 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [prune-coveragerc-check]
 
-    #if: needs.prune-coveragerc-check.outputs.changes
+    if: needs.prune-coveragerc-check.outputs.changes
     steps: 
-      - name: Debug env variables ${{ needs.prune-coveragerc-check.outputs.changes }}
+      - name: Create branch and add ${{ needs.prune-coveragerc-check.outputs.changes }} files
         run: |
-          echo "Hi"
-      - name: Create branch and add files
-        run: |
-          git checkout -b ${{ env.PRUNE_COVERAGERC }}
+          git checkout -b ${{ env.BRANCH_NAME }}
           git config --local user.email ${{ env.USER_EMAIL }}
           git config --local user.name ${{ env.USER_NAME }}
           git add .coveragerc
