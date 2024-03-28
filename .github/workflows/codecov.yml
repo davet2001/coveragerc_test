@@ -6,8 +6,8 @@ env:
   DEFAULT_PYTHON: "3.12.2"
   BRANCH_NAME: "prune_coveragerc_1"
   # @todo My details, just for testing - Later change to bot user id?
-  USER_EMAIL: "17680170+davet2001@users.noreply.github.com"
-  USER_NAME: "Dave T"
+  USER_EMAIL: "<41898282+github-actions[bot]@users.noreply.github.com>"
+  USER_NAME: "github-actions[bot]"
   PR_BODY: |
     This is an automatically generated pull request created by /.github/workflows/codecov.yml
 
