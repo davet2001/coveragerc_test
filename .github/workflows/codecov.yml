@@ -17,7 +17,7 @@ env:
 
     I created a branch to remove these entries. Please review and merge the branch if you agree.
 
-    Next time this workflow runs, it will automatically update the branch under the same PR, or recreate them if they have been deleted.
+    Next time this workflow runs, it will automatically update the branch under the same PR, or recreate the branch or PR if they have been deleted.
 
 jobs:
   base:
@@ -68,9 +68,22 @@ jobs:
           git fetch origin dev
           git add .coveragerc
           git commit -m "Remove unnecessary .coveragerc entries"
-      # git push --force --set-upstream origin ${{ env.BRANCH_NAME }}
+          git push --force --set-upstream origin ${{ env.BRANCH_NAME }}
+      - name: Check if PR already exists
+        id: check-pr
+        run: |
+          prs=$(gh pr list \
+              --repo "$GITHUB_REPOSITORY" \
+              --head 'dev' \
+              --base 'master' \
+              --json title \
+              --jq 'length')
+          if ((prs > 0)); then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Create pull request
-        # This step will fail if the PR already exists, and correctly leave
+        if: '!steps.check-pr.outputs.skip'
+        # This step skip if the PR already exists, and correctly leave
         # the existing PR pointing the to branch we just made.
         run: |
           gh pr create \
