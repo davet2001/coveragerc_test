@@ -35,7 +35,7 @@ on:
     outputs:
       default_python_version:
         value: ${{ jobs.info.outputs.default_python }}
-      python_-cache_key:
+      python_cache_key:
         value: ${{ jobs.info.outputs.python_cache_key }}
 
     
