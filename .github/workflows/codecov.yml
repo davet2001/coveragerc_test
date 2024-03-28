@@ -7,6 +7,19 @@ env:
   # @todo My details, just for testing - Later change to bot user id?
   USER_EMAIL: "17680170+davet2001@users.noreply.github.com"
   USER_NAME: "Dave T"
+  PR_BODY: |
+    This is an automatically generated pull request created by 
+    /.github/workflows/codecov.yml
+
+    Hi! When analysing .coveragerc, I found that some files were ommitted \
+    that didn't need to be.
+
+    I created a branch to merge these changes. Please review and merge them \
+    if you agree.
+
+    Next time this workflow runs, it will automatically update the branch \
+    under the same PR, or recreate them if they have been deleted.
+
 jobs:
   base:
     uses: ./.github/workflows/ci.yml  
@@ -55,10 +68,15 @@ jobs:
           git config --local user.name ${{ env.USER_NAME }}
           git add .coveragerc
           git commit -m "Remove unnecessary .coveragerc entries"
-          git push --set-upstream origin ${{ env.BRANCH_NAME }}
-        #- name: Create pull request
-          # run: |
-          #   gh 
+          git push --force-with-lease --set-upstream origin ${{ env.BRANCH_NAME }}
+      - name: Create pull request
+        # This step will fail if the PR already exists, and correctly leave
+        # the existing PR pointing the to branch we just made.
+        run: |
+          gh pr create \
+            --base dev \
+            --title "Remove unnecessary .coveragerc entries" \
+            --body ${{ env.PR_BODY }}            
   
 
   # prune-coveragerc-commit:
