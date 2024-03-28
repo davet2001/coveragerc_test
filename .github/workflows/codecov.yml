@@ -53,6 +53,7 @@ jobs:
     steps: 
       - name: Create branch and add ${{ needs.prune-coveragerc-check.outputs.changes }} files
         run: |
+          pwd
           ls -la
           git checkout -b ${{ env.BRANCH_NAME }}
           git config --local user.email ${{ env.USER_EMAIL }}
