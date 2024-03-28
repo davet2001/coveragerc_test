@@ -73,6 +73,7 @@ jobs:
         # the existing PR pointing the to branch we just made.
         run: |
           gh pr create \
+            --head origin/${{ env.BRANCH_NAME }} \
             --base dev \
             --title "Remove unnecessary .coveragerc entries" \
             --body "${{ env.PR_BODY }}"
