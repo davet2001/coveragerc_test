@@ -62,7 +62,7 @@ jobs:
           git add .coveragerc
           git commit -m "Remove unnecessary .coveragerc entries"
           git push
-      - name: Create pull request
+      #- name: Create pull request
         # run: |
         #   gh 
 
