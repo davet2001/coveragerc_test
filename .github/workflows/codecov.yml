@@ -68,7 +68,7 @@ jobs:
           git config --local user.name ${{ env.USER_NAME }}
           git add .coveragerc
           git commit -m "Remove unnecessary .coveragerc entries"
-          git push --force-with-lease --set-upstream origin ${{ env.BRANCH_NAME }}
+          git push --force --set-upstream origin ${{ env.BRANCH_NAME }}
       - name: Create pull request
         # This step will fail if the PR already exists, and correctly leave
         # the existing PR pointing the to branch we just made.
