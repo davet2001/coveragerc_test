@@ -33,10 +33,9 @@ on:
         type: boolean
   workflow_call:
     outputs:
-      default-python-version:
-        description: "Default python version"
+      default_python_version:
         value: ${{ jobs.info.outputs.python_versions[0] }}
-      python-cache-key:
+      python_-cache_key:
         value: ${{ jobs.info.outputs.python_cache_key }}
 
     
