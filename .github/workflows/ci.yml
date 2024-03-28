@@ -70,14 +70,6 @@ env:
   HASS_CI: 1
 
 jobs:
-  nothing:
-    name: "Dummy job"
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Set current date as env variable
-        run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-      - name: Echo current date
-        run: echo $NOW # Gives "2022-12-11T01:42:20"      
   info:
     name: Collect information & changes data
     outputs:
@@ -169,7 +161,7 @@ jobs:
             test_group_count=10
             test_full_suite="true"
           fi
-
+          env.DEFAULT_PYTHON
           if [[ "${{ github.event.inputs.skip-coverage }}" == "true" ]] \
             || [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci-skip-coverage') }}" == "true" ]];
           then
