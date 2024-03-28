@@ -55,7 +55,7 @@ jobs:
           git config --local user.name ${{ env.USER_NAME }}
           git add .coveragerc
           git commit -m "Remove unnecessary .coveragerc entries"
-          git push
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
         #- name: Create pull request
           # run: |
           #   gh 
