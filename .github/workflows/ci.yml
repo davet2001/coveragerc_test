@@ -34,7 +34,7 @@ on:
   workflow_call:
     outputs:
       default_python_version:
-        value: ${{ jobs.base.python.outputs.python-version }}
+        value: ${{ jobs.base.outputs.python_version }}
       python_cache_key:
         value: ${{ jobs.info.outputs.python_cache_key }}
 
@@ -195,6 +195,8 @@ jobs:
     runs-on: ubuntu-22.04
     needs: info
     timeout-minutes: 60
+    outputs:
+      python_version: ${{ steps.python.outputs.python-version }}
     strategy:
       matrix:
         python-version: ${{ fromJSON(needs.info.outputs.python_versions) }}
