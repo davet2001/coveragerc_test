@@ -10,7 +10,6 @@ on:
 
 env:
   GH_TOKEN: ${{ github.token }}
-  #DEFAULT_PYTHON: "3.12"
   BRANCH_NAME: "prune_coveragerc_1"
   USER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
   USER_NAME: "github-actions[bot]"
@@ -49,7 +48,7 @@ jobs:
         with:
           path: venv
           fail-on-cache-miss: true
-          key: ${{ runner.os }}-${{ needs.base.outputs.default_python_version }}-${{ needs.base.outputs.python-cache-key }}
+          key: ${{ runner.os }}-${{ needs.base.outputs.default_python_version }}-${{ needs.base.outputs.python_cache_key }}
       - name: Run pytest followed by coveragerc prune
         run: |
           . venv/bin/activate
