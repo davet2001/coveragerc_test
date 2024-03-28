@@ -48,7 +48,7 @@ jobs:
   prune-coveragerc-commit:
     runs-on: ubuntu-22.04
     needs: [prune-coveragerc-check]
-    if: needs.prune-coveragerc-check.outputs.changes == '1'
+    if: needs.prune-coveragerc-check.outputs.changes
     steps: 
       - name: Create branch and add files
         run: |
