@@ -34,7 +34,7 @@ on:
   workflow_call:
     outputs:
       default_python_version:
-        value: ${{ jobs.info.outputs.default_python }}
+        value: ${{ jobs.base.python.outputs.python-version }}
       python_cache_key:
         value: ${{ jobs.info.outputs.python_cache_key }}
 
