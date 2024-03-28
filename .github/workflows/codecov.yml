@@ -48,7 +48,7 @@ jobs:
   prune-coveragerc-commit:
     runs-on: ubuntu-22.04
     needs: [prune-coveragerc-check]
-    if: needs.prune-coveragerc-check.outputs.changes == 1
+    if: needs.prune-coveragerc-check.outputs.changes == '1'
     steps: 
       - name: Create branch and add files
         run: |
@@ -58,4 +58,7 @@ jobs:
           git add .coveragerc
           git commit -m "Remove unnecessary .coveragerc entries"
           git push
+      - name: Create pull request
+        run: |
+          gh 
 
