@@ -2,8 +2,8 @@ name: Prune Codecov .coveragerc
 on: 
   push:
     paths:
-      - /.github/workflows/*
-      - /script/check_coveragerc.py
+      - .github/workflows/*
+      - script/check_coveragerc.py
   schedule:
     # Every Monday at 4am UTC 
     - cron: 0 4 * * 1
