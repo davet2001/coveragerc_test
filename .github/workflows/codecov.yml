@@ -16,6 +16,8 @@ jobs:
   prune-coveragerc-check:
     runs-on: ubuntu-22.04
     needs: [base]
+    outputs:
+      changes: ${{ steps.detect.outputs.changes }}
     steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v4.1.2
@@ -37,15 +39,16 @@ jobs:
           . venv/bin/activate
           python3 -m script.check_coveragerc
       - name: Detect if anything was pruned
+        id: detect
         run: |
           change_count=$(git diff --numstat | wc -l)
-          echo "changes=$change_count" >> $GITHUB_ENV
           echo "$change_count files changed"
+          echo "changes=$change_count" >> $GITHUB_ENV
 
   prune-coveragerc-commit:
     runs-on: ubuntu-22.04
     needs: [prune-coveragerc-check]
-    if: needs.prune-coveragerc-check.changes > 0
+    if: needs.prune-coveragerc-check.outputs.changes == 1
     steps: 
       - name: Create branch and add files
         run: |
