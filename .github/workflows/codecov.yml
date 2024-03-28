@@ -3,7 +3,7 @@ on: [push]
 
 env:
   DEFAULT_PYTHON: "3.12.2"
-  BRANCH_NAME: "prune_coveragerc"
+  BRANCH_NAME: "prune_coveragerc_1"
   # @todo My details, just for testing - Later change to bot user id?
   USER_EMAIL: "17680170+davet2001@users.noreply.github.com"
   USER_NAME: "Dave T"
@@ -43,6 +43,8 @@ jobs:
           echo "$change_count files changed"
           echo "changes=$change_count" >> $GITHUB_OUTPUT
 
+      # Note: the steps below require GH actions permission to write to the repository
+      # (Settings > Actions > General > Workflow)
       - name: Create branch and add ${{ steps.detect.outputs.changes }} files
         if: ${{ steps.detect.outputs.changes }}
         run: |
