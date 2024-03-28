@@ -74,7 +74,7 @@ jobs:
         run: |
           gh pr create \
             --head origin/${{ env.BRANCH_NAME }} \
-            --base dev \
+            --base origin/dev \
             --title "Remove unnecessary .coveragerc entries" \
             --body "${{ env.PR_BODY }}"
   
