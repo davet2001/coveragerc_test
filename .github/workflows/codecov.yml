@@ -73,9 +73,8 @@ jobs:
         id: check-pr
         run: |
           prs=$(gh pr list \
-              --repo "$GITHUB_REPOSITORY" \
-              --head 'dev' \
-              --base 'master' \
+              --head ${{ env.BRANCH_NAME }} \
+              --base dev \
               --json title \
               --jq 'length')
           if ((prs > 0)); then
