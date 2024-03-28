@@ -34,7 +34,7 @@ on:
   workflow_call:
     outputs:
       default_python_version:
-        value: ${{ env.ALL_PYTHON_VERSIONS[0] }}
+        value: ${{ jobs.info.outputs.default_python }}
       python_-cache_key:
         value: ${{ jobs.info.outputs.python_cache_key }}
 
@@ -82,6 +82,7 @@ jobs:
       requirements: ${{ steps.core.outputs.requirements }}
       mariadb_groups: ${{ steps.info.outputs.mariadb_groups }}
       postgresql_groups: ${{ steps.info.outputs.postgresql_groups }}
+      default_python: ${{ env.DEFAULT_PYTHON }}
       python_versions: ${{ steps.info.outputs.python_versions }}
       test_full_suite: ${{ steps.info.outputs.test_full_suite }}
       test_group_count: ${{ steps.info.outputs.test_group_count }}
