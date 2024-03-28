@@ -43,7 +43,7 @@ jobs:
         run: |
           change_count=$(git diff --numstat | wc -l)
           echo "$change_count files changed"
-          echo "changes=$change_count" >> $GITHUB_ENV
+          echo "changes=$change_count" >> $GITHUB_OUTPUT
 
   prune-coveragerc-commit:
     runs-on: ubuntu-22.04
