@@ -10,9 +10,11 @@ env:
   PR_BODY: |
     This is an automatically generated pull request created by /.github/workflows/codecov.yml
 
-    Hi! When analysing .coveragerc, I found that some files were ommitted that didn't need to be.
+    Hi! When analysing .coveragerc, I found that some files were ommitted from pytest coverage checks that didn't need to be.
 
-    I created a branch to merge these changes. Please review and merge them if you agree.
+    This usually happens when those files already have a high or 100% coverage.
+
+    I created a branch to remove these entries. Please review and merge the branch if you agree.
 
     Next time this workflow runs, it will automatically update the branch under the same PR, or recreate them if they have been deleted.
 
