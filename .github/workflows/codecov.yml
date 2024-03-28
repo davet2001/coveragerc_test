@@ -40,6 +40,7 @@ jobs:
         run: |
           change_count=$(git diff --numstat | wc -l)
           echo "changes=$change_count" >> $GITHUB_ENV
+          echo "$change_count files changed"
 
   prune-coveragerc-commit:
     runs-on: ubuntu-22.04
@@ -54,4 +55,4 @@ jobs:
           git add .coveragerc
           git commit -m "Remove unnecessary .coveragerc entries"
           git push
-          
+
