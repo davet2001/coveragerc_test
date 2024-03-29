@@ -1,6 +1,5 @@
 [run]
 source = testpackage
 omit =
-    testpackage/testfile2.py
 
 #    testpackage/testfile2_.py
