@@ -33,9 +33,8 @@ on:
         type: boolean
   workflow_call:
     outputs:
-      default-python-version:
-        description: "Default python version"
-        value: ${{ jobs.info.outputs.python_versions }}
+      default_python_version:
+        value: ${{ jobs.base.outputs.python_version }}
       python_cache_key:
         value: ${{ jobs.info.outputs.python_cache_key }}
 
@@ -70,14 +69,6 @@ env:
   HASS_CI: 1
 
 jobs:
-  nothing:
-    name: "Dummy job"
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Set current date as env variable
-        run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-      - name: Echo current date
-        run: echo $NOW # Gives "2022-12-11T01:42:20"      
   info:
     name: Collect information & changes data
     outputs:
@@ -91,6 +82,7 @@ jobs:
       requirements: ${{ steps.core.outputs.requirements }}
       mariadb_groups: ${{ steps.info.outputs.mariadb_groups }}
       postgresql_groups: ${{ steps.info.outputs.postgresql_groups }}
+      default_python: ${{ env.DEFAULT_PYTHON }}
       python_versions: ${{ steps.info.outputs.python_versions }}
       test_full_suite: ${{ steps.info.outputs.test_full_suite }}
       test_group_count: ${{ steps.info.outputs.test_group_count }}
@@ -169,7 +161,6 @@ jobs:
             test_group_count=10
             test_full_suite="true"
           fi
-
           if [[ "${{ github.event.inputs.skip-coverage }}" == "true" ]] \
             || [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci-skip-coverage') }}" == "true" ]];
           then
@@ -204,6 +195,8 @@ jobs:
     runs-on: ubuntu-22.04
     needs: info
     timeout-minutes: 60
+    outputs:
+      python_version: ${{ steps.python.outputs.python-version }}
     strategy:
       matrix:
         python-version: ${{ fromJSON(needs.info.outputs.python_versions) }}
